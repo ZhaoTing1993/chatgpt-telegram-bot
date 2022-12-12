@@ -37,7 +37,8 @@ def main():
 
     if os.environ.get('PROXY', None) is not None:
         chatgpt_config.update({'proxy': os.environ.get('PROXY')})
-		telegram_config.update({'proxy': os.environ.get('PROXY')})
+        telegram_config.update({'proxy': os.environ.get('PROXY')})
+
 
     debug = os.environ.get('DEBUG', 'true').lower() == 'true'
 
@@ -45,7 +46,6 @@ def main():
     gpt3_bot = ChatGPT3Bot(config=chatgpt_config, debug=debug)
     telegram_bot = ChatGPT3TelegramBot(config=telegram_config, gpt3_bot=gpt3_bot)
     telegram_bot.run()
-
 
 if __name__ == '__main__':
     main()
