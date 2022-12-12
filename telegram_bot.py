@@ -177,7 +177,7 @@ class ChatGPT3TelegramBot:
         Runs the bot indefinitely until the user presses Ctrl+C
         """
         app_builder = ApplicationBuilder().token(self.config['token'])
-        if len(self.config['proxy']) > 0:
+        if 'proxy' in self.config and len(self.config['proxy']) > 0:
             app_builder.proxy_url(self.config['proxy']).get_updates_proxy_url(self.config['proxy'])
 
         application = app_builder.build()
