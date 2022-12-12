@@ -2,7 +2,8 @@ import logging
 import os
 
 from dotenv import load_dotenv
-from asyncChatGPT.asyncChatGPT import Chatbot as ChatGPT3Bot
+from revChatGPT.revChatGPT import AsyncChatbot as ChatGPT3Bot
+
 from telegram_bot import ChatGPT3TelegramBot
 
 
@@ -26,14 +27,18 @@ def main():
     # Setup configuration
     chatgpt_config = {
         'email': os.environ['OPENAI_EMAIL'],
-        'password': os.environ['OPENAI_PASSWORD'],
-        'proxy': os.environ.get('PROXY', ''),
+        'password': os.environ['OPENAI_PASSWORD']
     }
     telegram_config = {
         'token': os.environ['TELEGRAM_BOT_TOKEN'],
         'allowed_user_ids': os.environ.get('ALLOWED_TELEGRAM_USER_IDS', '*'),
-        'proxy': os.environ.get('PROXY', ''),
+        'use_stream': os.environ.get('USE_STREAM', 'true').lower() == 'true'
     }
+
+    if os.environ.get('PROXY', None) is not None:
+        chatgpt_config.update({'proxy': os.environ.get('PROXY')})
+		telegram_config.update({'proxy': os.environ.get('PROXY')})
+
     debug = os.environ.get('DEBUG', 'true').lower() == 'true'
 
     # Setup and run ChatGPT and Telegram bot

@@ -1,6 +1,6 @@
 # ChatGPT Telegram Bot
 ![python-version](https://img.shields.io/badge/python-3.10-blue.svg)
-[![playwright-version](https://img.shields.io/badge/revChatGPT-0.0.33.5-green.svg)](https://github.com/acheong08/ChatGPT)
+[![revChatGPT-version](https://img.shields.io/badge/revChatGPT-0.0.38.1-green.svg)](https://github.com/acheong08/ChatGPT)
 [![license](https://img.shields.io/badge/License-GPL%202.0-brightgreen.svg)](LICENSE)
 
 A [Telegram bot](https://core.telegram.org/bots/api) that integrates with OpenAI's [ChatGPT](https://openai.com/blog/chatgpt/) to provide answers. Ready to use with minimal configuration required. Based on [acheong08/ChatGPT](https://github.com/acheong08/ChatGPT)
@@ -14,14 +14,15 @@ A [Telegram bot](https://core.telegram.org/bots/api) that integrates with OpenAI
 - [x] Can reset conversation thread with the `/reset` command
 - [x] Typing indicator while generating a response
 - [x] Access can be restricted by specifying a list of allowed users
+- [x] (NEW!) Docker support
+- [x] (NEW!) Live answer updating as the bot types
+
 
 ## Additional Features - help needed!
-- [ ] Multi-chat support
+- [ ] Multi-chat support (ongoing, see [pull/22](https://github.com/n3d1117/chatgpt-telegram-bot/pull/22))
   - Idea: cache different instances of `ChatGPT3Bot`, one for every chat id (maybe even persist them), so that every user has their own private conversation
-- [ ] Support group chats
+- [ ] Support group chats (ongoing, see [pull/17](https://github.com/n3d1117/chatgpt-telegram-bot/pull/17))
   - Allow the bot to be used in group chats with specific commands
-- [ ] Docker support
-  - With `Dockerfile` and `docker-compose.yml`. See [pull/2](https://github.com/n3d1117/chatgpt-telegram-bot/pull/2) for a start
 - [ ] Advanced commands
   - With premade ad-hoc prompts
 - [ ] Token based authentication 
@@ -35,24 +36,6 @@ PRs are always welcome!
 - An [OpenAI](https://openai.com) account (see [configuration](#configuration) section)
 
 ## Getting started
-
-### Installing
-1. Clone the repository and navigate to the project directory:
-
-```bash
-git clone https://github.com/n3d1117/chatgpt-telegram-bot.git
-cd chatgpt-telegram-bot
-```
-
-2. Create a new virtual environment with Pipenv and install the required dependencies:
-```
-pipenv install
-```
-
-3. Activate the virtual environment:
-```
-pipenv shell
-```
 
 ### Configuration
 Customize the configuration by copying `.env.example` and renaming it to `.env`, then editing the settings as desired:
@@ -68,16 +51,43 @@ Additional optional (but recommended) configuration values:
 ```bash
 ALLOWED_TELEGRAM_USER_IDS="<USER_ID_1>,<USER_ID_2>,..." # Defaults to "*"
 PROXY="<HTTP/HTTPS_PROXY>" # E.g. "http://localhost:8080", defaults to none
+USE_STREAM=false # Defaults to true
 DEBUG=false # Defaults to true
 ```
 * `ALLOWED_TELEGRAM_USER_IDS`: A comma-separated list of Telegram user IDs that are allowed to interact with the bot (use [getidsbot](https://t.me/getidsbot) to find your user ID). **Important**: by default, *everyone* is allowed (`*`)
 * `PROXY`: Proxy to be used when authenticating with OpenAI
+* `USE_STREAM`: Streams the response as the bot types. Set to `false` to only answer once the response is fully generated
 * `DEBUG`: Enable debug logging for the [revChatGpt](https://github.com/acheong08/ChatGPT) package
 
-### Run
-Use the following command to start the bot:
+### Installing
+1. Clone the repository and navigate to the project directory:
+
+```bash
+git clone https://github.com/n3d1117/chatgpt-telegram-bot.git
+cd chatgpt-telegram-bot
+```
+
+#### From Source
+2. Create a new virtual environment with Pipenv and install the required dependencies:
+```
+pipenv install
+```
+
+3. Activate the virtual environment:
+```
+pipenv shell
+```
+
+4. Use the following command to start the bot:
 ```
 python main.py
+```
+
+#### Using Docker Compose
+
+2. Run the following command to build and run the Docker image:
+```bash
+docker-compose up
 ```
 
 ## Credits
